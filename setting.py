@@ -3,6 +3,7 @@ TITLE = "TEST"
 WIDTH = 800
 HEIGHT = 600
 FPS = 60
+FONT_NAME = 'arial'
 
 # Player properties
 PLAYER_ACC = 1.5
@@ -24,3 +25,5 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
+SKYBLUE = (0, 155, 155)
+BGCOLOR = SKYBLUE

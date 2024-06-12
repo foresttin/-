@@ -71,8 +71,8 @@ class Game:
             self.playing = False
             self.show_end_message()  # Show game over screen if player falls
 
-        # Check if score reaches 200
-        if self.score >= 200:
+        # Check if score reaches 100
+        if self.score >= 100:
             self.playing = False
             self.show_end_message(arrival=True)  # Show arrival message
 

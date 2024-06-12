@@ -17,18 +17,14 @@ class Player(pg.sprite.Sprite):
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
 
-    def jump_cut(self):
-        if self.jumping:
-            if self.vel.y < -3:
-                self.vel.y = -3
+
     def jump(self):
         # jump only if standing on a platform
         self.rect.y += 0.1
         hits = pg.sprite.spritecollide(self, self.game.platforms, False)
         self.rect.y -= 0.1
-        if hits and not self.jumping:
-            self.jumping = True
-            self.vel.y = -PLAYER_JUMP
+        if hits:
+            self.vel.y = -20
 
     def update(self):
         self.acc = vec(0, PLAYER_GRAVITY)

@@ -2,6 +2,7 @@ import pygame as pg
 import random
 from setting import *
 from sprites import *
+from os import path
 
 class Game:
     def __init__(self):

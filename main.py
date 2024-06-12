@@ -14,6 +14,11 @@ class Game:
         self.running = True
         self.font_name = pg.font.match_font(FONT_NAME)
 
+    def load_data(self):
+
+        # load spritesheet image
+        self.spritesheet = Spritesheet(path.join(img_dir, SPRITESHEET)) # 이 부분에 스프라이트 시트 넣기
+
     def new(self):
         # start a new game
         self.score = 0

@@ -1,6 +1,6 @@
 import pygame as pg
 import random
-from setting import *
+from settings import *
 from sprites import *
 
 class Game:
@@ -87,6 +87,8 @@ class Game:
             self.platforms.add(p)
             self.all_sprites.add(p)
 
+
+
     def show_end_message(self, arrival=False):
         self.screen.fill(BGCOLOR)
         if arrival:
@@ -112,9 +114,6 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     self.player.jump()
-            if event.type == pg.KEYUP:
-                if event.key == pg.K_SPACE:
-                    self.player.jump_cut()
 
     def draw(self):
         # Game Loop - Draw

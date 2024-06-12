@@ -111,6 +111,9 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     self.player.jump()
+            if event.type == pg.KEYUP:
+                if event.key == pg.K_SPACE:
+                    self.player.jump_cut()
 
     def draw(self):
         # Game Loop - Draw

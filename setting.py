@@ -27,3 +27,7 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 SKYBLUE = (48, 200, 248)
 BGCOLOR = SKYBLUE
+
+FONT_NAME = 'arial'
+HS_FILE = "highscore.txt"
+SPRITESHEET = "spritesheet_jumper.png" ###

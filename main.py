@@ -41,17 +41,18 @@ class Game:
     def update(self):
         # Game Loop - Update
         self.all_sprites.update()
-        # check if player hits a platform
+        # check if player hits a platfrom
         if self.player.vel.y > 0:
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
             if hits:
                 lowest = hits[0]
-                for hit in hits: - 충돌한 모든발판중에 가장 낮은걸 고릅니다
+                for hit in hits:
                     if hit.rect.bottom > lowest.rect.bottom:
                         lowest = hit
-                if self.player.pos.y < hits[0].rect.centery:
-                    self.player.pos.y = hits[0].rect.top + 0.1
+                if self.player.pos.y < lowest.rect.centery:
+                    self.player.pos.y = lowest.rect.top + 0.1
                     self.player.vel.y = 0
+                    self.player.jumping = False
 
         # If player reached top 1/4 of screen
         if self.player.rect.top <= HEIGHT / 4:

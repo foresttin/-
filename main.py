@@ -45,6 +45,11 @@ class Game:
         if self.player.vel.y > 0:
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
             if hits:
+                lowest = hits[0]
+                for hit in hits: - 충돌한 모든발판중에 가장 낮은걸 고릅니다
+                    if hit.rect.bottom > lowest.rect.bottom:
+                        lowest = hit
+                if self.player.pos.y < hits[0].rect.centery:
                 self.player.pos.y = hits[0].rect.top + 0.1
                 self.player.vel.y = 0
 

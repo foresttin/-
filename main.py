@@ -39,9 +39,11 @@ class Game:
             self.draw()
 
     def update(self):
-        # Game Loop - Update
+  def update(self):
+    # Game Loop - Update
         self.all_sprites.update()
-        # check if player hits a platfrom
+    
+    # Check if player hits a platform
         if self.player.vel.y > 0:
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
             if hits:
@@ -49,12 +51,12 @@ class Game:
                 for hit in hits:
                     if hit.rect.bottom > lowest.rect.bottom:
                         lowest = hit
-                if self.player.pos.y < lowest.rect.centery:
+                if self.player.rect.bottom < lowest.rect.centery + 10:  # Adjust the threshold value as needed
                     self.player.pos.y = lowest.rect.top + 0.1
                     self.player.vel.y = 0
                     self.player.jumping = False
 
-        # If player reached top 1/4 of screen
+    # If player reached top 1/4 of screen
         if self.player.rect.top <= HEIGHT / 4:
             self.player.pos.y += abs(self.player.vel.y)
             for plat in self.platforms:
@@ -63,7 +65,7 @@ class Game:
                     plat.kill()
                     self.score += 10
 
-        # Die
+    # Die
         if self.player.rect.bottom > HEIGHT:
             for sprite in self.all_sprites:
                 sprite.rect.y -= max(self.player.vel.y, 10)
@@ -72,12 +74,12 @@ class Game:
             self.playing = False
             self.show_end_message()  # Show game over screen if player falls
 
-        # Check if score reaches 100
+    # Check if score reaches 100
         if self.score >= 100:
             self.playing = False
             self.show_end_message(arrival=True)  # Show arrival message
 
-        # Spawn new platforms
+    # Spawn new platforms
         while len(self.platforms) < 6:
             width = random.randrange(50, 100)
             p = Platform(random.randrange(0, WIDTH - width),

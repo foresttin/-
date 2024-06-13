@@ -30,3 +30,7 @@ BGCOLOR = SKYBLUE
 
 FONT_NAME = 'arial'
 HS_FILE = "highscore.txt"
+
+# Image file paths
+PLAYER_IMG = 'player.png'
+PLATFORM_IMGS = ['platform1.png', 'platform2.png', 'platform3.png', 'platform4.png']

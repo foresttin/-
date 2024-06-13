@@ -1,4 +1,5 @@
 import pygame as pg
+import random
 from setting import *
 vec = pg.math.Vector2
 

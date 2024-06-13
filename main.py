@@ -1,6 +1,6 @@
 import pygame as pg
 import random
-import os  # os 모듈을 임포트합니다.
+import os 
 from setting import *
 from sprites import *
 from os import path

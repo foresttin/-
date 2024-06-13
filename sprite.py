@@ -7,15 +7,14 @@ class Player(pg.sprite.Sprite):
     def __init__(self, game):
         pg.sprite.Sprite.__init__(self)
         self.game = game
-        
-        self.image = pg.Surface((30, 40))
-        self.image.fill(YELLOW)
+        self.image = game.player_img
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH/2, HEIGHT/2)
 
         self.pos = vec(WIDTH/2, HEIGHT/2)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
+        self.jumping = False
 
 
     def jump(self):
@@ -46,12 +45,11 @@ class Player(pg.sprite.Sprite):
 
         self.rect.midbottom = self.pos
 
-
 class Platform(pg.sprite.Sprite):
-    def __init__(self, x, y, w, h):
+    def __init__(self, x, y, w, h, game):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((w, h))
-        self.image.fill(GREEN)
+        self.game = game
+        self.image = pg.transform.scale(random.choice(game.platform_imgs), (w, h))
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y

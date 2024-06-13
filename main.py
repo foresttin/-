@@ -13,11 +13,35 @@ class Game:
         self.clock = pg.time.Clock()
         self.running = True
         self.font_name = pg.font.match_font(FONT_NAME)
+        self.load_data()
 
     def load_data(self):
+        self.dir = path.dirname(__file__)
+        img_dir = path.join(self.dir, 'img')
 
-        # load spritesheet image
-        self.spritesheet = Spritesheet(path.join(img_dir, SPRITESHEET)) # 이 부분에 스프라이트 시트 넣기
+        # Check if the directory exists and print its contents for debugging
+        print(f"Loading images from {img_dir}")
+        if not path.exists(img_dir):
+            print("Image directory does not exist.")
+        else:
+            print("Image directory exists.")
+            print("Contents of the image directory:", os.listdir(img_dir))
+
+        # Load player image
+        player_img_path = path.join(img_dir, PLAYER_IMG)
+        if path.exists(player_img_path):
+            self.player_img = pg.image.load(player_img_path).convert_alpha()
+        else:
+            print(f"Player image not found at {player_img_path}")
+
+        # Load platform images
+        self.platform_imgs = []
+        for img_file in PLATFORM_IMGS:
+            img_path = path.join(img_dir, img_file)
+            if path.exists(img_path):
+                self.platform_imgs.append(pg.image.load(img_path).convert_alpha())
+            else:
+                print(f"Platform image not found at {img_path}")
 
     def new(self):
         # start a new game
@@ -29,7 +53,7 @@ class Game:
         self.all_sprites.add(self.player)
 
         for plat in PLATFORM_LIST:
-            p = Platform(*plat)
+            p = Platform(*plat, self)
             self.all_sprites.add(p)
             self.platforms.add(p)
 
@@ -45,10 +69,10 @@ class Game:
             self.draw()
 
     def update(self):
-    # Game Loop - Update
+        # Game Loop - Update
         self.all_sprites.update()
-    
-    # Check if player hits a platform
+
+        # Check if player hits a platform
         if self.player.vel.y > 0:
             hits = pg.sprite.spritecollide(self.player, self.platforms, False)
             if hits:
@@ -61,7 +85,7 @@ class Game:
                     self.player.vel.y = 0
                     self.player.jumping = False
 
-    # If player reached top 1/4 of screen
+        # If player reached top 1/4 of screen
         if self.player.rect.top <= HEIGHT / 4:
             self.player.pos.y += abs(self.player.vel.y)
             for plat in self.platforms:
@@ -70,7 +94,7 @@ class Game:
                     plat.kill()
                     self.score += 10
 
-    # Die
+        # Die
         if self.player.rect.bottom > HEIGHT:
             for sprite in self.all_sprites:
                 sprite.rect.y -= max(self.player.vel.y, 10)
@@ -79,21 +103,19 @@ class Game:
             self.playing = False
             self.show_end_message()  # Show game over screen if player falls
 
-    # Check if score reaches 100
+        # Check if score reaches 100
         if self.score >= 100:
             self.playing = False
             self.show_end_message(arrival=True)  # Show arrival message
 
-    # Spawn new platforms
+        # Spawn new platforms
         while len(self.platforms) < 6:
             width = random.randrange(50, 100)
             p = Platform(random.randrange(0, WIDTH - width),
                          random.randrange(-75, -30),
-                         width, 20)
+                         width, 20, self)
             self.platforms.add(p)
             self.all_sprites.add(p)
-
-
 
     def show_end_message(self, arrival=False):
         self.screen.fill(BGCOLOR)
@@ -101,13 +123,11 @@ class Game:
             self.draw_text("Arrival", 48, WHITE, WIDTH/2, HEIGHT/4)
         else:
             self.draw_text("GAME OVER", 48, WHITE, WIDTH/2, HEIGHT/4)
-            self.draw_text("Score : " + str(self.score),
-                           22, WHITE, WIDTH/2, HEIGHT/2)
-        self.draw_text("Press any key to play again",
-                       22, WHITE, WIDTH/2, HEIGHT*3/4)
+            self.draw_text("Score : " + str(self.score), 22, WHITE, WIDTH/2, HEIGHT/2)
+        self.draw_text("Press any key to play again", 22, WHITE, WIDTH/2, HEIGHT*3/4)
         pg.display.flip()
         self.wait_for_key()
-        self.new()  # Restart the game after the message
+        self.new()
 
     def events(self):
         # Game Loop - Events
@@ -126,18 +146,14 @@ class Game:
         self.screen.fill(BGCOLOR)
         self.all_sprites.draw(self.screen)
         self.draw_text(str(self.score), 22, WHITE, WIDTH/2, 15)
-        
-        # *after* drawing everything, flip the display
         pg.display.flip()
 
     def show_start_screen(self):
         # game splash/start screen
         self.screen.fill(BGCOLOR)
         self.draw_text(TITLE, 48, WHITE, WIDTH/2, HEIGHT/4)
-        self.draw_text("Arrows to move, Space to jump",
-                       22, WHITE, WIDTH/2, HEIGHT/2)
-        self.draw_text("Press a key to play",
-                       22, WHITE, WIDTH/2, HEIGHT*3/4)
+        self.draw_text("Arrows to move, Space to jump", 22, WHITE, WIDTH/2, HEIGHT/2)
+        self.draw_text("Press a key to play", 22, WHITE, WIDTH/2, HEIGHT*3/4)
         pg.display.flip()
         self.wait_for_key()
 

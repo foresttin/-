@@ -6,7 +6,7 @@ class Player(pg.sprite.Sprite):
     def __init__(self, game):
         pg.sprite.Sprite.__init__(self)
         self.game = game
-        self.image = game.player_img
+        self.image = pg.transform.scale(game.player_img, (50, 70))  # 이미지 크기 조정
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH/5, HEIGHT/5)
 

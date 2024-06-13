@@ -2,8 +2,6 @@ import pygame as pg
 import random
 from setting import *
 vec = pg.math.Vector2
-
-
 class Player(pg.sprite.Sprite):
     def __init__(self, game):
         pg.sprite.Sprite.__init__(self)
@@ -54,4 +52,3 @@ class Platform(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
-

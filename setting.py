@@ -28,8 +28,6 @@ YELLOW = (255, 255, 0)
 SKYBLUE = (48, 200, 248)
 BGCOLOR = SKYBLUE
 
-FONT_NAME = 'arial'
-HS_FILE = "highscore.txt"
 
 # Image file paths
 PLAYER_IMG = 'player.png'

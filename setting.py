@@ -30,4 +30,3 @@ BGCOLOR = SKYBLUE
 
 FONT_NAME = 'arial'
 HS_FILE = "highscore.txt"
-SPRITESHEET = "spritesheet_jumper.png" ###

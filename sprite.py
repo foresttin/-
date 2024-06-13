@@ -8,7 +8,7 @@ class Player(pg.sprite.Sprite):
         self.game = game
         self.image = game.player_img
         self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH/2, HEIGHT/2)
+        self.rect.center = (WIDTH/5, HEIGHT/5)
 
         self.pos = vec(WIDTH/2, HEIGHT/2)
         self.vel = vec(0, 0)

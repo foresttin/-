@@ -27,8 +27,10 @@ BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 SKYBLUE = (48, 200, 248)
 BGCOLOR = SKYBLUE
+PARANG=(108,108,255)
 
 
 # Image file paths
 PLAYER_IMG = 'player.png'
 PLATFORM_IMGS = ['platform1.png', 'platform2.png', 'platform3.png', 'platform4.png']
+

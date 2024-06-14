@@ -112,13 +112,40 @@ class Game:
     def show_end_message(self, arrival=False):
         self.screen.fill(BGCOLOR)
         if arrival:
-            self.draw_text("Arrival", 48, WHITE, WIDTH / 2, HEIGHT / 4)
+        # Arrival 이미지를 화면에 표시합니다.
+            arrival_img_path = path.join(path.dirname(__file__), 'img', 'clear.jpg')
+            if path.exists(arrival_img_path):
+                arrival_img = pg.image.load(arrival_img_path).convert_alpha()
+                arrival_img = pg.transform.scale(arrival_img, (WIDTH, HEIGHT))  # 이미지 크기 조정
+                self.screen.blit(arrival_img, (0, 0))
+            else:
+                print(f"Arrival image not found at {arrival_img_path}")
+
         else:
-            self.draw_text("GAME OVER", 48, WHITE, WIDTH / 2, HEIGHT / 4)
-            self.draw_text("Score : " + str(self.score), 22, WHITE, WIDTH / 2, HEIGHT / 2)
-        self.draw_text("Press any key to play again", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
+        # 게임 오버 이미지를 화면에 표시합니다.
+            game_over_img_path = path.join(path.dirname(__file__), 'img', 'gameover.png')
+            if path.exists(game_over_img_path):
+                game_over_img = pg.image.load(game_over_img_path).convert_alpha()
+            # 이미지 비율을 유지하면서 화면에 꽉 차게 표시하기 위해 먼저 이미지의 사이즈를 가져옵니다.
+                img_rect = game_over_img.get_rect()
+                img_ratio = img_rect.width / img_rect.height
+            
+            # 화면의 가로세로 비율에 맞게 이미지의 크기를 조정합니다.
+                if img_ratio > WIDTH / HEIGHT:
+                    game_over_img = pg.transform.scale(game_over_img, (int(HEIGHT * img_ratio), HEIGHT))
+                else:
+                    game_over_img = pg.transform.scale(game_over_img, (WIDTH, int(WIDTH / img_ratio)))
+            
+            # 이미지를 화면 가운데에 표시합니다.
+                img_rect = game_over_img.get_rect(center=(WIDTH / 2, HEIGHT / 2))
+                self.screen.blit(game_over_img, img_rect)
+            else:
+                print(f"Game over image not found at {game_over_img_path}")
+
+        self.draw_text("Score : " + str(self.score), 28, PARANG, WIDTH * 3 / 4, HEIGHT - 60)  # 점수 텍스트 위치 조정 및 색상 변경
+        self.draw_text("Press ENTER to play again", 22, PARANG, WIDTH * 3 / 4, HEIGHT - 30)
         pg.display.flip()
-        self.wait_for_key()
+        self.wait_for_enter()
         self.new()
 
     def events(self):
@@ -137,13 +164,59 @@ class Game:
         self.draw_text(str(self.score), 22, WHITE, WIDTH / 2, 15)
         pg.display.flip()
 
+    
     def show_start_screen(self):
+    # Step 1: Display background color and text
         self.screen.fill(BGCOLOR)
         self.draw_text(TITLE, 48, WHITE, WIDTH / 2, HEIGHT / 4)
         self.draw_text("Arrows to move, Space to jump", 22, WHITE, WIDTH / 2, HEIGHT / 2)
         self.draw_text("Press a key to play", 22, WHITE, WIDTH / 2, HEIGHT * 3 / 4)
         pg.display.flip()
+    
+    # Wait for key press
         self.wait_for_key()
+    
+    # List of image file names to display sequentially
+        img_files = ['start.png', 'start_second.png', 'third.png']
+    
+        for img_file in img_files:
+            img_path = path.join(path.dirname(__file__), 'img', img_file)
+            if path.exists(img_path):
+                img = pg.image.load(img_path).convert_alpha()
+                img_rect = img.get_rect()
+                img_rect.center = (WIDTH / 2, HEIGHT / 2)
+                self.screen.fill(BGCOLOR)  # Clear the screen
+                self.screen.blit(img, img_rect)
+                # '엔터키를 누르세요' 텍스트를 화면 하단 오른쪽에 정렬하여 표시합니다.
+                self.draw_text("Press ENTER to continue", 28, WHITE, WIDTH * 3 / 4, HEIGHT * 15 / 16)
+                pg.display.flip()
+                self.wait_for_enter()
+            else:
+                print(f"Image not found at {img_path}")
+
+    def wait_for_enter(self):
+        waiting = True
+        while waiting:
+            self.clock.tick(FPS)
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    waiting = False
+                    self.running = False
+                if event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
+                    waiting = False
+
+
+    def wait_for_enter(self):
+        waiting = True
+        while waiting:
+            self.clock.tick(FPS)
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    waiting = False
+                    self.running = False
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_RETURN:
+                        waiting = False
 
     def wait_for_key(self):
         waiting = True
